@@ -1,0 +1,8 @@
+private/
+certs/
+crl/
+csr/
+newcerts/
+serial
+index.txt
+crlnumber
