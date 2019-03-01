@@ -57,6 +57,10 @@ openssl x509 -req -extfile openssl.cnf -extensions usr_cert -days 365 -sha256 -C
 openssl x509 -noout -text -in newcerts/${domain}/server.cert.pem
 # 使用 根证书+代理证书 证书链校验生成的服务端证书的正确性
 openssl verify -CAfile certs/intermediateca-chain.cert.pem newcerts/${domain}/server.cert.pem
+# 继续合并证书链, 当然你也可以选择不合并
+# 在服务端配置server端的证书时使用改证书链, 可以避免浏览器提示 `Windows没有足够信息, 不能验证该证书`
+# 但即便获取到完整的证书链, 依然会提示 `无法将这个证书验证到一个受信任的证书颁发机构`
+cat newcerts/www.example.com/server.cert.pem certs/intermediateca.cert.pem certs/rootca.cert.pem > newcerts/www.example.com/server-chain.cert.pem
 
 # 如下是生成客户端证书的步骤, 仔细看, 跟生成服务端证书没有啥子差别
 # 证书都是正经一样的证书, 只是看你怎么用, 用在哪而已
