@@ -10,7 +10,7 @@ mkdir certs crl csr newcerts private
 echo 1000 > crlnumber && echo 1000 > serial && touch index.txt
 
 
-#### 制作CA证书 ####
+#### 制作CA根证书 ####
 # 生成CA根证书私钥: 为保证安全, 生成一个4096位的私钥, 并使用aes方式加密
 openssl genrsa -aes256 -out private/rootca.key.pem 4096
 # 生成自签名的CA根证书
@@ -43,6 +43,7 @@ cat certs/intermediateca.cert.pem certs/rootca.cert.pem > certs/intermediateca-c
 
 
 #### 接下来是重头戏, 使用代理CA制作服务端和客户端证书 ####
+# 注: 一般域名服务商会提供免费的服务端证书, 如阿里云、腾讯云
 # 创建基于域名的文件夹, 暂且放在newcerts目录下吧
 domain=www.example.com
 mkdir newcerts/${domain}
